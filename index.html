@@ -1,48 +1,93 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Video Speler</title>
-    <link
-      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
-      rel="stylesheet"
-      integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
-      crossorigin="anonymous"
-    />
-    <link rel="stylesheet" href="css/progress.css" />
-    <link rel="stylesheet" href="css/style.css" />
-  </head>
-  <body>
-    <h1>Video Speler</h1>
-    <video
-      src="videos/234.mp4"
-      id="video"
-      class="screen"
-      poster="img/poster.png"
-    ></video>
-    <div class="controls">
-      <button class="btn" id="play">
-        <i class="fa fa-play fa-2x"></i>
-      </button>
-      <button class="btn" id="stop">
-        <i class="fa fa-stop fa-2x"></i>
-      </button>
-      <input
-        type="range"
-        id="progress"
-        class="progress"
-        min="0"
-        max="100"
-        step="0.1"
-        value="0"
-      />
-      <span class="timestamp" id="timestamp">00:00</span>
-    </div>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Super Video Player</title>
+  <meta name="description" content="Responsive & accesible video player - modern design" />
 
-    <script src="script.js"></script>
-  </body>
+  <link rel="stylesheet" href="css/style.css" />
+
+  <!-- Optional: favicon -->
+</head>
+<body>
+  <main class="player-wrap" aria-label="Video speler">
+    <header class="player-header">
+      <h1 class="title">Video Speler</h1>
+      <div class="toggles">
+        <button id="themeToggle" class="icon-btn" aria-pressed="false" aria-label="Wissel donker/licht thema" title="Wissel thema">🌓</button>
+      </div>
+    </header>
+
+    <section class="player">
+      <div class="video-container" data-state="paused">
+        <!-- Video element (poster / track optional) -->
+        <video id="video" class="video" poster="img/poster.png" preload="metadata" tabindex="0">
+          <source src="videos/234.mp4" type="video/mp4" />
+          <!-- Uncomment and add a .vtt file if you have subtitles -->
+          <!-- <track kind="subtitles" srclang="nl" label="Nederlands" src="subs/234.vtt" default> -->
+          Je browser ondersteunt geen video.
+        </video>
+
+        <!-- Overlay controls (appear on hover / focus for desktop) -->
+        <div class="controls" role="group" aria-label="Videobediening">
+          <div class="controls-top">
+            <div class="progress-wrap" aria-hidden="false">
+              <input
+                id="progress"
+                class="progress"
+                type="range"
+                min="0"
+                max="100"
+                step="0.01"
+                value="0"
+                aria-label="Voortgang"
+              />
+              <div id="bufferedBar" class="buffered-bar" aria-hidden="true"></div>
+            </div>
+            <div class="time total-time" aria-live="off"><span id="currentTime">00:00</span> / <span id="duration">00:00</span></div>
+          </div>
+
+          <div class="controls-main">
+            <div class="left-controls">
+              <button id="skipBack" class="btn" aria-label="Terug 10 seconden" title="Terug 10s">⏪</button>
+              <button id="play" class="btn" aria-label="Afspelen/pauzeren" title="Play / Pause">▶️</button>
+              <button id="stop" class="btn" aria-label="Stop" title="Stop">⏹️</button>
+              <button id="skipForward" class="btn" aria-label="Vooruit 10 seconden" title="Vooruit 10s">⏩</button>
+            </div>
+
+            <div class="center-controls">
+              <button id="pipBtn" class="btn" aria-label="Picture-in-Picture" title="Picture-in-Picture">📺</button>
+              <button id="ccBtn" class="btn" aria-pressed="false" aria-label="Ondertiteling aan/uit" title="Ondertiteling">💬</button>
+              <label class="volume-wrap" aria-label="Volume">
+                <button id="mute" class="btn small" aria-pressed="false" title="Dempen">🔈</button>
+                <input id="volume" class="volume" type="range" min="0" max="1" step="0.01" value="1" aria-label="Volume regelaar" />
+              </label>
+            </div>
+
+            <div class="right-controls">
+              <label for="playbackRate" class="sr-only">Afspelsnelheid</label>
+              <select id="playbackRate" class="rate" aria-label="Afspelsnelheid" title="Afspelsnelheid">
+                <option value="0.5">0.5×</option>
+                <option value="0.75">0.75×</option>
+                <option value="1" selected>1×</option>
+                <option value="1.25">1.25×</option>
+                <option value="1.5">1.5×</option>
+                <option value="2">2×</option>
+              </select>
+
+              <button id="fullscreen" class="btn" aria-label="Volledig scherm" title="Volledig scherm">⤢</button>
+            </div>
+          </div>
+        </div> <!-- controls -->
+      </div> <!-- video-container -->
+    </section>
+
+    <footer class="player-footer">
+      <small>Tip: gebruik spatie voor play/pauze · ←/→ skip · F volledig scherm · M mute</small>
+    </footer>
+  </main>
+
+  <script src="script.js"></script>
+</body>
 </html>
-
-<!-- https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Client-side_web_APIs/Video_and_audio_APIs -->
